@@ -25,6 +25,6 @@ defmodule Advent do
 
   def eval() do
     sum_fuel()
-    |> IO.puts
+    |> IO.puts()
   end
 end

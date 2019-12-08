@@ -4,7 +4,6 @@ defmodule Main do
   def start(_types, _args) do
     Advent.eval()
 
-    exit :normal
+    exit(:normal)
   end
-
 end

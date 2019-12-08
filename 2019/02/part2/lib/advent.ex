@@ -1,6 +1,6 @@
 defmodule Advent do
   @moduledoc false
-  @target 19690720
+  @target 19_690_720
 
   def input_file() do
     {:ok, dev} = File.open("../input/input.txt")
@@ -42,7 +42,8 @@ defmodule Advent do
     |> Enum.at(0)
   end
 
-  def find_noun([_|_] = state), do: find_noun({state, 0})
+  def find_noun([_ | _] = state), do: find_noun({state, 0})
+
   def find_noun({state, noun}) do
     if run(state, noun, 0) >= @target do
       {state, noun - 1}
@@ -52,8 +53,10 @@ defmodule Advent do
   end
 
   def find_verb({state, noun}), do: find_verb({state, noun, 0})
+
   def find_verb({state, noun, verb}) do
     r = run(state, noun, verb)
+
     cond do
       r == @target -> {noun, verb}
       r < @target -> find_verb({state, noun, verb + 1})
