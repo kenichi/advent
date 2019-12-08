@@ -38,18 +38,6 @@ defmodule Advent do
     {String.to_atom(d), Integer.parse(n) |> elem(0)}
   end
 
-  # def intersections(a, b) do
-  #   Enum.reduce(a, MapSet.new(), fn {ax, ay, as}, set ->
-  #     Enum.reduce(b, set, fn {bx, by, bs}, set ->
-  #       if ax == bx && ay == by do
-  #         MapSet.put(set, {ax, ay, as + bs})
-  #       else
-  #         set
-  #       end
-  #     end)
-  #   end)
-  # end
-
   def eval([a, b] \\ read_input()) do
     {path_a, {_, _, _, map_a}} = Enum.reduce(a, {MapSet.new(), {0, 0, 0, %{}}}, &plot/2)
 
