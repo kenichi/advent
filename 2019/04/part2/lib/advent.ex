@@ -1,16 +1,6 @@
 defmodule Advent do
   @moduledoc false
 
-  def input_file() do
-    {:ok, dev} = File.open("../input/input.txt")
-    dev
-  end
-
-  def read_input(dev \\ input_file()) do
-    IO.read(dev, :all)
-    |> String.split("\n", trim: true)
-  end
-
   def six_digits?(n), do: n > 99999 && n < 1_000_000
 
   def in_range?(n), do: n >= 231_832 && n <= 767_346
