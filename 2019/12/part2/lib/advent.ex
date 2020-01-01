@@ -1,15 +1,6 @@
 defmodule Advent do
   @moduledoc false
 
-  defmodule Benchmark do
-    def measure(function) do
-      function
-      |> :timer.tc
-      |> elem(0)
-      |> Kernel./(1_000_000)
-    end
-  end
-
   defmodule Moon do
     defstruct position: %{x: 0, y: 0, z: 0}, velocity: %{x: 0, y: 0, z: 0}
 
@@ -96,17 +87,34 @@ defmodule Advent do
     end)
   end
 
-  def pattern(moons, axis, init \\ nil, count \\ 0) do
+  def pattern(moons, axis, prev_states \\ MapSet.new(), count \\ 0) do
+    moons = step(moons)
+    state = axial_state(moons, axis)
+
+    if MapSet.member?(prev_states, state) do
+      count
+    else
+      pattern(moons, axis, MapSet.put(prev_states, state), count + 1)
+    end
   end
 
+  def axial_state(moons, axis) do
+    Enum.map(moons, fn %Moon{position: p, velocity: v} -> {p[axis], v[axis]} end)
+  end
+
+  def first_repeat(moons) do
+    xc = pattern(moons, :x)
+    yc = pattern(moons, :y)
+    zc = pattern(moons, :z)
+    lcm(xc, lcm(yc, zc))
+  end
+
+  defp lcm(a, b), do: div(a * b, Integer.gcd(a, b))
+
   def eval() do
-    moons =
-      Advent.Input.read()
-      |> Enum.map(&Moon.new/1)
-
-     
-
-    Benchmark.measure(fn -> step(moons) end)
+    Advent.Input.read()
+    |> Enum.map(&Moon.new/1)
+    |> first_repeat()
     |> inspect()
   end
 end

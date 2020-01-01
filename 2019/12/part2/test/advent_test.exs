@@ -7,32 +7,51 @@ defmodule AdventTest do
     text
     |> String.split("\n", trim: true)
     |> Enum.map(fn l ->
-      Regex.named_captures(~r/pos=<x=(?<x>[ -]\d+), y=(?<y>[ -]\d+), z=(?<z>[ -]\d+)>, vel=<x=(?<vx>[ -]\d+), y=(?<vy>[ -]\d+), z=(?<vz>[ -]\d+)>/, l)
+      Regex.named_captures(
+        ~r/pos=<x=(?<x>[ -]\d+), y=(?<y>[ -]\d+), z=(?<z>[ -]\d+)>, vel=<x=(?<vx>[ -]\d+), y=(?<vy>[ -]\d+), z=(?<vz>[ -]\d+)>/,
+        l
+      )
       |> Enum.map(fn {k, v} ->
         {i, ""} = v |> String.trim() |> Integer.parse()
         {String.to_atom(k), i}
       end)
       |> Map.new()
       |> (fn m ->
-        %Advent.Moon{position: %{x: m[:x], y: m[:y], z: m[:z]}, velocity: %{x: m[:vx], y: m[:vy], z: m[:vz]}}
-      end).()
+            %Advent.Moon{
+              position: %{x: m[:x], y: m[:y], z: m[:z]},
+              velocity: %{x: m[:vx], y: m[:vy], z: m[:vz]}
+            }
+          end).()
     end)
   end
 
-  describe "example 1" do
-    def ex_one_moons do
-      """
-      <x=-1, y=0, z=2>
-      <x=2, y=-10, z=-7>
-      <x=4, y=-8, z=8>
-      <x=3, y=5, z=-1>
-      """
-      |> StringIO.open()
-      |> elem(1)
-      |> Advent.Input.read()
-      |> Enum.map(&Advent.Moon.new/1)
-    end
+  def ex_one_moons do
+    """
+    <x=-1, y=0, z=2>
+    <x=2, y=-10, z=-7>
+    <x=4, y=-8, z=8>
+    <x=3, y=5, z=-1>
+    """
+    |> StringIO.open()
+    |> elem(1)
+    |> Advent.Input.read()
+    |> Enum.map(&Advent.Moon.new/1)
+  end
 
+  def ex_two_moons do
+    """
+    <x=-8, y=-10, z=0>
+    <x=5, y=5, z=10>
+    <x=2, y=-7, z=3>
+    <x=9, y=-8, z=-3>
+    """
+    |> StringIO.open()
+    |> elem(1)
+    |> Advent.Input.read()
+    |> Enum.map(&Advent.Moon.new/1)
+  end
+
+  describe "example 1" do
     test "step 0" do
       assert ex_one_moons() ==
                [
@@ -211,6 +230,24 @@ defmodule AdventTest do
         |> parse_example()
 
       assert observed == expected
+    end
+  end
+
+  describe "first_repeat" do
+    test "example 1" do
+      observed =
+        ex_one_moons()
+        |> Advent.first_repeat()
+
+      assert observed == 2772
+    end
+
+    test "example 2" do
+      observed =
+        ex_two_moons()
+        |> Advent.first_repeat()
+
+      assert observed == 4_686_774_924
     end
   end
 end
