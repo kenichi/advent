@@ -1,4 +1,4 @@
-# Advent of Code 2021 - Day 3 Part 1
+# Advent of Code 2021 - Day 4 Part 2
 
 Once it wins, what would its final score be?
 

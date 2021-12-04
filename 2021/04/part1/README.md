@@ -1,4 +1,4 @@
-# Advent of Code 2021 - Day 3 Part 1
+# Advent of Code 2021 - Day 4 Part 1
 
 What will your final score be if you choose that board?
 
