@@ -31,12 +31,8 @@ defmodule Advent do
   @spec safe_report?([integer()]) :: boolean()
   defp safe_report?(report) do
     with intervals <- parse_intervals(report),
-         true <- all_inc_or_dec?(intervals),
-         true <- intervals_within_spec?(intervals) do
-      true
-    else
-      false ->
-        false
+         true <- all_inc_or_dec?(intervals) do
+      intervals_within_spec?(intervals)
     end
   end
 
@@ -62,9 +58,7 @@ defmodule Advent do
 
   @spec dampened_safe_report?([integer()]) :: boolean()
   defp dampened_safe_report?(report) do
-    n = length(report)
-
-    Enum.reduce_while(0..n, false, fn n, _ ->
+    Enum.reduce_while(0..length(report), false, fn n, _ ->
       report
       |> List.delete_at(n)
       |> safe_report?()
