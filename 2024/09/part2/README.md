@@ -5,15 +5,15 @@ What is the resulting filesystem checksum?
 ## Setup
 
 Parse input into ints, chunks, and, finally, a map of positions to ids. Collect
-max position along the way.
+file positions/size, max id and position along the way.
 
 ## Implementation
 
-Our struct as the position map, a max file position, and a min of 0. Start by
-updating the min to the first free position (first consecutive number that is
-not a key in the map). Swap the max and min, updating both, and continue until
-they equal each other. Now, checksum the "defragged FS" via the method
-described.
+Many attempts at speed resulted in incorrect answers. 12s to finish part2 ain't
+great, but I'm extremely *done* with this puzzle at this point 😅
+
+Brutally iterate down the file IDs, checking for open space and flipping the
+map keys when space is found.
 
 ## Running
 
